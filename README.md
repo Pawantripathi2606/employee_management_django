@@ -2,10 +2,6 @@
 
 A comprehensive web-based Employee Management System built with Django and SQLite, featuring a modern UI with glassmorphism design, role-based access control, and complete employee lifecycle management.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
-![Django](https://img.shields.io/badge/django-5.0-green.svg)
-
 ## ✨ Features
 
 ### 🔐 Authentication & Authorization
@@ -209,13 +205,6 @@ You can use Django's admin interface at `/admin/` to quickly create test data:
 - Login: `admin` / `admin123`
 - Add users, notices, attendance, etc.
 
-## 🤝 Contributing
-
-This is a personal project, but suggestions and improvements are welcome!
-
-## 📄 License
-
-This project is open source and available under the MIT License.
 
 ## 🆘 Troubleshooting
 
@@ -276,4 +265,4 @@ For issues or questions:
 
 ---
 
-**Built with ❤️ using Django**
+
