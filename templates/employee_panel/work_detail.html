@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Work Details - Employee{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Work Details</h1>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1.5rem;">{{ work.title }}</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+        <div>
+            <p><strong>Assigned By:</strong> {{ work.assigned_by.get_full_name }}</p>
+            <p><strong>Assigned Date:</strong> {{ work.assigned_date|date:"M d, Y" }}</p>
+            <p><strong>Due Date:</strong> {{ work.due_date|date:"M d, Y" }}</p>
+        </div>
+        <div>
+            <p><strong>Priority:</strong>
+                <span
+                    class="badge badge-{% if work.priority == 'URGENT' %}danger{% elif work.priority == 'HIGH' %}warning{% else %}info{% endif %}">
+                    {{ work.priority }}
+                </span>
+            </p>
+            <p><strong>Status:</strong>
+                <span
+                    class="badge badge-{% if work.status == 'COMPLETED' %}success{% elif work.status == 'IN_PROGRESS' %}info{% else %}warning{% endif %}">
+                    {{ work.get_status_display }}
+                </span>
+            </p>
+            {% if work.completed_date %}
+            <p><strong>Completed:</strong> {{ work.completed_date|date:"M d, Y" }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h4 style="margin-bottom: 0.5rem;">Description:</h4>
+    <p style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+        {{ work.description }}
+    </p>
+
+    {% if work.remarks %}
+    <h4 style="margin-bottom: 0.5rem;">Your Remarks:</h4>
+    <p style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 1.5rem;">
+        {{ work.remarks }}
+    </p>
+    {% endif %}
+
+    <div style="display: flex; gap: 1rem;">
+        <a href="{% url 'employee_panel:work_update' work.pk %}" class="btn btn-primary">Update Status</a>
+        <a href="{% url 'employee_panel:work_list' %}" class="btn btn-danger">Back to List</a>
+    </div>
+</div>
+{% endblock %}

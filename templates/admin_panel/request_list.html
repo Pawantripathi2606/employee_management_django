@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Requests - Admin{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📋 Employee Requests</h1>
+    <p class="page-subtitle">Manage all employee requests</p>
+</div>
+
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Submitted</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                <tr>
+                    <td>{{ request.employee.get_full_name }}</td>
+                    <td>{{ request.get_request_type_display }}</td>
+                    <td>{{ request.subject }}</td>
+                    <td>{{ request.submitted_date|date:"M d, Y" }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if request.status == 'PENDING' %}warning{% elif request.status == 'APPROVED' %}success{% else %}danger{% endif %}">
+                            {{ request.status }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if request.status == 'PENDING' %}
+                        <a href="{% url 'admin_panel:request_respond' request.pk %}"
+                            class="btn btn-primary btn-sm">Respond</a>
+                        {% else %}
+                        <span style="color: rgba(255, 255, 255, 0.6);">Responded</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; color: rgba(255, 255, 255, 0.6);">No requests found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

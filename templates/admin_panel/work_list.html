@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Work Assignments - Admin{% endblock %}
+
+{% block content %}
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1 class="page-title">💼 Work Assignments</h1>
+        <p class="page-subtitle">Manage employee work</p>
+    </div>
+    <a href="{% url 'admin_panel:work_create' %}" class="btn btn-primary">+ Assign Work</a>
+</div>
+
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for work in works %}
+                <tr>
+                    <td>{{ work.title }}</td>
+                    <td>{{ work.assigned_to.get_full_name }}</td>
+                    <td>{{ work.due_date|date:"M d, Y" }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if work.priority == 'URGENT' %}danger{% elif work.priority == 'HIGH' %}warning{% else %}info{% endif %}">
+                            {{ work.priority }}
+                        </span>
+                    </td>
+                    <td>
+                        <span
+                            class="badge badge-{% if work.status == 'COMPLETED' %}success{% elif work.status == 'IN_PROGRESS' %}info{% else %}warning{% endif %}">
+                            {{ work.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: rgba(255, 255, 255, 0.6);">No work assignments
+                        found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

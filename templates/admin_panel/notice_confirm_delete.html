@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Notice - Admin{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Delete Notice</h1>
+</div>
+
+<div class="card">
+    <div class="alert alert-danger">
+        <strong>Warning!</strong> Are you sure you want to delete the notice <strong>"{{ notice.title }}"</strong>?
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'admin_panel:notice_list' %}" class="btn btn-primary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - EMP System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📊 Admin Dashboard</h1>
+    <p class="page-subtitle">Welcome back, {{ user.first_name }}!</p>
+</div>
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_employees }}</div>
+        <div class="stat-label">Total Employees</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ total_notices }}</div>
+        <div class="stat-label">Active Notices</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ pending_requests }}</div>
+        <div class="stat-label">Pending Requests</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ active_work }}</div>
+        <div class="stat-label">Active Work</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+    <div class="card">
+        <h3 class="card-title">Recent Requests</h3>
+        {% if recent_requests %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in recent_requests %}
+                <tr>
+                    <td>{{ request.employee.username }}</td>
+                    <td>{{ request.get_request_type_display }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if request.status == 'PENDING' %}warning{% elif request.status == 'APPROVED' %}success{% else %}danger{% endif %}">
+                            {{ request.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: rgba(255, 255, 255, 0.6);">No recent requests</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">Recent Work Assignments</h3>
+        {% if recent_work %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Assigned To</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for work in recent_work %}
+                <tr>
+                    <td>{{ work.title }}</td>
+                    <td>{{ work.assigned_to.username }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if work.status == 'COMPLETED' %}success{% elif work.status == 'IN_PROGRESS' %}info{% else %}warning{% endif %}">
+                            {{ work.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: rgba(255, 255, 255, 0.6);">No recent work assignments</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

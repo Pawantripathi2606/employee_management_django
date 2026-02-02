@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Notices - Employee{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📢 Company Notices</h1>
+    <p class="page-subtitle">View all active notices</p>
+</div>
+
+{% for notice in notices %}
+<div class="card">
+    <h3 style="margin-bottom: 1rem;">{{ notice.title }}</h3>
+    <p style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px;">
+        {{ notice.content }}
+    </p>
+    <p style="margin-top: 1rem; color: rgba(255, 255, 255, 0.6);">
+        <small>Published by {{ notice.published_by.get_full_name }} on {{ notice.published_date|date:"M d, Y" }}</small>
+    </p>
+</div>
+{% empty %}
+<div class="card">
+    <p style="text-align: center; color: rgba(255, 255, 255, 0.6);">No notices available</p>
+</div>
+{% endfor %}
+{% endblock %}

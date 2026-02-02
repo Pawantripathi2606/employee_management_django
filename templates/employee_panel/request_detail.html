@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Request Details - Employee{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Request Details</h1>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem;">{{ request.subject }}</h3>
+
+    <p><strong>Type:</strong> {{ request.get_request_type_display }}</p>
+    <p><strong>Submitted:</strong> {{ request.submitted_date|date:"M d, Y" }}</p>
+    <p><strong>Status:</strong>
+        <span
+            class="badge badge-{% if request.status == 'PENDING' %}warning{% elif request.status == 'APPROVED' %}success{% else %}danger{% endif %}">
+            {{ request.status }}
+        </span>
+    </p>
+
+    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Description:</h4>
+    <p style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px;">
+        {{ request.description }}
+    </p>
+
+    {% if request.admin_response %}
+    <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem;">Admin Response:</h4>
+    <p style="background: rgba(102, 126, 234, 0.2); padding: 1rem; border-radius: 10px;">
+        {{ request.admin_response }}
+    </p>
+    <p><small style="color: rgba(255, 255, 255, 0.6);">Responded on: {{ request.responded_date|date:"M d, Y" }}</small>
+    </p>
+    {% endif %}
+
+    <div style="margin-top: 1.5rem;">
+        <a href="{% url 'employee_panel:request_list' %}" class="btn btn-primary">Back to Requests</a>
+    </div>
+</div>
+{% endblock %}

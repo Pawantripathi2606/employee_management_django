@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - EMP System{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h1 class="auth-title">📝 Register</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Username</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <small style="color: #ef5350;">{{ form.username.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                <small style="color: #ef5350;">{{ form.email.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    {{ form.last_name }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Role</label>
+                {{ form.role }}
+                {% if form.role.errors %}
+                <small style="color: #ef5350;">{{ form.role.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Employee ID</label>
+                {{ form.employee_id }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Department</label>
+                {{ form.department }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                {{ form.phone }}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Password</label>
+                {{ form.password1 }}
+                {% if form.password1.errors %}
+                <small style="color: #ef5350;">{{ form.password1.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                {{ form.password2 }}
+                {% if form.password2.errors %}
+                <small style="color: #ef5350;">{{ form.password2.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Register</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 1.5rem; color: rgba(255, 255, 255, 0.8);">
+            Already have an account? <a href="{% url 'accounts:login' %}"
+                style="color: var(--accent-color); text-decoration: none;">Login here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

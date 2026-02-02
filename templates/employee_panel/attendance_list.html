@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}My Attendance - Employee{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📅 My Attendance</h1>
+    <p class="page-subtitle">View your attendance history</p>
+</div>
+
+<div class="card">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Status</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for attendance in attendance_records %}
+                <tr>
+                    <td>{{ attendance.date|date:"M d, Y" }}</td>
+                    <td>{{ attendance.check_in|default:"--" }}</td>
+                    <td>{{ attendance.check_out|default:"--" }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if attendance.status == 'PRESENT' %}success{% elif attendance.status == 'LEAVE' %}info{% else %}danger{% endif %}">
+                            {{ attendance.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ attendance.notes|default:"--" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align: center; color: rgba(255, 255, 255, 0.6);">No attendance records
+                        found</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

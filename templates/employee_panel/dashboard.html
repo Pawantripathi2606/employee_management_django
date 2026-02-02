@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee Dashboard - EMP System{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">📊 My Dashboard</h1>
+    <p class="page-subtitle">Welcome back, {{ user.first_name }}!</p>
+</div>
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_work }}</div>
+        <div class="stat-label">Total Work</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ pending_work }}</div>
+        <div class="stat-label">Pending</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ in_progress_work }}</div>
+        <div class="stat-label">In Progress</div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-number">{{ completed_work }}</div>
+        <div class="stat-label">Completed</div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+    <div class="card">
+        <h3 class="card-title">My Work</h3>
+        {% if recent_work %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for work in recent_work %}
+                <tr>
+                    <td><a href="{% url 'employee_panel:work_detail' work.pk %}"
+                            style="color: var(--accent-color); text-decoration: none;">{{ work.title }}</a></td>
+                    <td>{{ work.due_date|date:"M d, Y" }}</td>
+                    <td>
+                        <span
+                            class="badge badge-{% if work.status == 'COMPLETED' %}success{% elif work.status == 'IN_PROGRESS' %}info{% else %}warning{% endif %}">
+                            {{ work.get_status_display }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: rgba(255, 255, 255, 0.6);">No work assigned yet</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h3 class="card-title">Recent Notices</h3>
+        {% if recent_notices %}
+        {% for notice in recent_notices %}
+        <div style="background: rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem;">
+            <h4 style="margin-bottom: 0.5rem;">{{ notice.title }}</h4>
+            <small style="color: rgba(255, 255, 255, 0.6);">{{ notice.published_date|date:"M d, Y" }}</small>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p style="color: rgba(255, 255, 255, 0.6);">No notices available</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
