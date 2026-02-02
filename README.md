@@ -1,4 +1,4 @@
-# 🏢 Employee Management System
+# 🏢 Employee Management System.
 
 A comprehensive web-based Employee Management System built with Django and SQLite, featuring a modern UI with glassmorphism design, role-based access control, and complete employee lifecycle management.
 
